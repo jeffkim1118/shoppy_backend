@@ -1,5 +1,5 @@
-class ApplicationController < ActionController::API
-  before_action :authorized
+class ApplicationController < ActionController::Base
+  # before_action :authorized
 
   def secret_key
     ENV['SECRET_KEY']

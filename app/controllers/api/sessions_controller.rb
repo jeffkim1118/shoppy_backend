@@ -1,5 +1,5 @@
-class SessionsController < ApplicationController::API
-  skip_before_action :verify_authencity_token
+class Api::SessionsController < ApplicationController
+  skip_before_action :verify_authenticity_token
 
   def new 
     @user = User.new
