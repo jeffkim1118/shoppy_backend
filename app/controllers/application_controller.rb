@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   # before_action :authorized
+  helper_method :authorized, :encode_token, :payload
 
   def secret_key
     ENV['SECRET_KEY']
@@ -20,6 +21,14 @@ class ApplicationController < ActionController::Base
   def valid_token?
     !!try_decode_token
   end
+
+  def requires_login
+    if !valid_token?
+      render json: {
+        message: 'Incorrect Information'
+      }, status: :unauthorized
+    end
+  end
   
   def try_decode_token
     begin
@@ -30,6 +39,9 @@ class ApplicationController < ActionController::Base
     decoded
   end
 
+  def payload (name, id)
+    { name: name, id: id }
+  end
 
   def encode_token(payload)
     JWT.encode payload, secret_key(), 'HS256'

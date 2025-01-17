@@ -6,12 +6,13 @@ class Api::SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(username:params[:user][:username])
-    if @user && @user.authenticate(params[:user][:password])
+    @user = User.find_by(username: params[:username])
+    byebug
+    if @user&.authenticate(params[:password])
       session['user_id'] = @user.id
       render json: {
-        token: get_token(payload(@user.username, @user.id)),
-        user:: UserSerializer.new(@user).serializable_hash[:data][:attributes]
+        token: encode_token(payload(@user.username, @user.id)),
+        user: UserSerializer.new(@user).serializable_hash[:data][:attributes]
       }
     else
       render json: {

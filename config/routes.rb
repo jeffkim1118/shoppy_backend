@@ -3,11 +3,20 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
+  # Request for all registered users.
   get "/users", to: "api/users#index"
   
+  # Request to create a new user in the database
   post "/users", to: "api/users#create"
+
+  # Keeping me logged in
   get "/me", to: "api/user#me"
-  post "/auth/login", to: "api/auth#login"
+
+  # Logging in
+  post "/login", to: "api/sessions#create"
+
+  # post "/auth/login", to: "api/auth#login"
 
   
 end
