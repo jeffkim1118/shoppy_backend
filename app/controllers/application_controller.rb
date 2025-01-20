@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  # before_action :authorized
   helper_method :authorized, :encode_token, :payload
 
   def secret_key
@@ -47,16 +46,9 @@ class ApplicationController < ActionController::Base
     JWT.encode payload, secret_key(), 'HS256'
   end
 
-  def current_user 
-    if decoded_token
-        user_id = decoded_token[0]['user_id']
-        @user = User.find_by(id: user_id)
-    end
-  end
 
-  def authorized
-    unless !!current_user
-    render json: { message: 'Please log in' }, status: :unauthorized
-    end
+  def authorized(user)
+    tryDecode = try_decode_token
+    tryDecode && tryDecode[0] && tryDecode[0]['id'] == user.id
   end
 end

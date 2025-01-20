@@ -16,7 +16,4 @@ Rails.application.routes.draw do
   # Logging in
   post "/login", to: "api/sessions#create"
 
-  # post "/auth/login", to: "api/auth#login"
-
-  
 end
